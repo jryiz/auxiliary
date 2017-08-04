@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/auxiliary
+    username: root
+    password: 123456
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  mail:
+      host: smtp.qq.com
+      username: 506655900@qq.com
+      password: mfvzicjqbvlkcbbi
+      properties:
+        mail:
+          smtp:
+            auth: true
+            starttls:
+              enable: true
+              required: true
+
+logging:
+  level: INFO,DEBUG
+  file: D:/study/JAVA/logs/default.log

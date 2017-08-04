@@ -1,0 +1,9 @@
+server:
+  port: 8090
+  #context-path: /boot
+
+mail:
+  properties:
+    path: "D:/IdeaProjects/auxiliary/src/main/resources/mail.properties"
+  task:
+    cron: "0 */1 * * * ?"
