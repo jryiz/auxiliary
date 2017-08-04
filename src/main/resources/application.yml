@@ -25,3 +25,24 @@ spring:
 logging:
   level: INFO,DEBUG
   file: D:/study/JAVA/logs/default.log
+
+httpClient:
+  config:
+    maxTotalConnections: 400
+    waitTimeout: 60000
+    maxRouteConnections: 400
+    connectTimeout: 10000
+    readTimeout: 40000
+
+httpclient:
+  config:
+    #最大连接数
+    maxTotal: 400
+    #客户端和服务器建立连接的timeout
+    connectTimeout: 10000
+    #服务器返回超时时间
+    socketTimeout: 40000
+    #最大路由连接
+    defaultMaxPerRoute: 400
+    #从连接池获取连接的timeout
+    connectionRequestTimeout: 60000

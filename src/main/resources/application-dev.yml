@@ -7,3 +7,6 @@ mail:
     path: "D:/IdeaProjects/auxiliary/src/main/resources/mail.properties"
   task:
     cron: "0 */1 * * * ?"
+api:
+  server:
+    url: http://localhost:8001/pay/notify.htm
