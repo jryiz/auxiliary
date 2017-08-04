@@ -1,6 +1,7 @@
 package com.auxiliary.utils;
 
 import com.auxiliary.http.HttpClientProperties;
+import okhttp3.OkHttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.net.ssl.SSLContext;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.TimeUnit;
 
 @Configuration
 public class HttpClient {
@@ -70,5 +72,18 @@ public class HttpClient {
     @Bean
     public RequestConfig getRequestConfig(@Qualifier("builder") RequestConfig.Builder builder){
         return builder.build();
+    }
+
+    public static final Integer CONNECT_TIMEOUT=60;
+    public static final Integer READ_TIMEOUT=40;
+    public static final Integer WRITE_TIMEOUT=60;
+
+    @Bean
+    public OkHttpClient getOkHttpClient(){
+        return new OkHttpClient().newBuilder()
+                .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+                .connectTimeout(CONNECT_TIMEOUT,TimeUnit.SECONDS)
+                .writeTimeout(WRITE_TIMEOUT,TimeUnit.SECONDS)
+                .build();
     }
 }

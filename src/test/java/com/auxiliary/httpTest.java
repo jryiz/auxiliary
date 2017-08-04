@@ -2,6 +2,10 @@ package com.auxiliary;
 
 import com.auxiliary.http.HttpAPIService;
 import com.auxiliary.utils.HttpConnectionManager;
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -41,6 +45,9 @@ public class httpTest {
 
     @Autowired
     private HttpAPIService httpAPIService;
+
+    @Autowired
+    private OkHttpClient okHttpClient;
 
     public String request(JSONObject obj) {
         CloseableHttpResponse response=null;
@@ -99,7 +106,18 @@ public class httpTest {
 
     @Test
     public void requestTest() throws Exception {
-        String str = httpAPIService.doGet("http://www.baidu.com" );
-        System.out.println(str);
+//        String str = httpAPIService.doGet("http://www.baidu.com" );
+//        System.out.println(str);
+        String url = "https://www.baidu.com/";
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        Call call = okHttpClient.newCall(request);
+        try {
+            Response response = call.execute();
+            System.out.println(response.body().string());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
