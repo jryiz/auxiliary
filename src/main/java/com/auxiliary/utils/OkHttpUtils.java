@@ -1,9 +1,6 @@
 package com.auxiliary.utils;
 
-import okhttp3.Call;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
 
 import java.io.IOException;
 
@@ -11,7 +8,20 @@ import java.io.IOException;
  * @auther ucmed Wenjun Choi
  * @create 2017/8/4
  */
-public class OkHttp {
+public class OkHttpUtils {
+
+    public static void post(OkHttpClient okHttpClient,String url,String requestData,String... headers){
+        RequestBody requestBody = new FormBody.Builder()
+                .add("requestKey", "requestValue")
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("","")
+                .post(requestBody)
+                .build();
+
+    }
+
     public static void main(String[] args) {
         String url = "https://www.baidu.com/";
         OkHttpClient okHttpClient = new OkHttpClient();

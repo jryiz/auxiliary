@@ -46,3 +46,10 @@ httpclient:
     defaultMaxPerRoute: 400
     #从连接池获取连接的timeout
     connectionRequestTimeout: 60000
+
+zyyy:
+  api-url: https://zyyy.zwjk.com/api/exec.htm
+  app:
+    id: zyyy_iphone
+    key: ZW5sNWVWOXBjR2h2Ym1VPQ==
+    version: 3.3.6

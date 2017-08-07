@@ -21,6 +21,9 @@ import javax.net.ssl.SSLContext;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 初始化httpclient的类
+ */
 @Configuration
 public class HttpClient {
     @Autowired
@@ -78,6 +81,12 @@ public class HttpClient {
     public static final Integer READ_TIMEOUT=40;
     public static final Integer WRITE_TIMEOUT=60;
 
+    /**
+     * 初始化OkhttpClient,交给spring容器统一管理，避免新建OkHttpClient;
+     * 设置timeout;
+     *
+     * @return
+     */
     @Bean
     public OkHttpClient getOkHttpClient(){
         return new OkHttpClient().newBuilder()
