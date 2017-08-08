@@ -2,6 +2,7 @@ package com.auxiliary;
 
 import com.auxiliary.http.HttpAPIService;
 import com.auxiliary.utils.HttpConnectionManager;
+import com.auxiliary.zyyy.ZyyyAPIService;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -20,10 +21,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -36,11 +37,15 @@ import java.util.List;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = AuxiliaryApplication.class)
-@Component
+@Configuration
 public class httpTest {
+    
+    @Value("${zyyy.api-url}")
+    public String zyyyUrl;
 
     private static final Logger LOG = Logger.getLogger("httpTest");
-    @Value("api.server.url")
+
+    @Value("${api.server.url}")
     private static String url;
 
     @Autowired
@@ -109,15 +114,23 @@ public class httpTest {
 //        String str = httpAPIService.doGet("http://www.baidu.com" );
 //        System.out.println(str);
         String url = "https://www.baidu.com/";
+//        OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
                 .build();
         Call call = okHttpClient.newCall(request);
+        System.out.println(okHttpClient.toString());
         try {
             Response response = call.execute();
             System.out.println(response.body().string());
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    @Autowired
+    ZyyyAPIService zyyyAPIService;
+    @Test
+    public void loginTest() throws Exception {
+        zyyyAPIService.login();
     }
 }
