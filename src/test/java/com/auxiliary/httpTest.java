@@ -2,7 +2,10 @@ package com.auxiliary;
 
 import com.auxiliary.http.HttpAPIService;
 import com.auxiliary.utils.HttpConnectionManager;
+import com.auxiliary.zyyy.Main;
 import com.auxiliary.zyyy.ZyyyAPIService;
+import com.auxiliary.zyyy.api.DoctorScheduleDetails;
+import com.auxiliary.zyyy.api.Login;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -25,6 +28,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -127,10 +131,18 @@ public class httpTest {
             e.printStackTrace();
         }
     }
+//    @Autowired
+//    ZyyyAPIService zyyyAPIService;
     @Autowired
-    ZyyyAPIService zyyyAPIService;
+    Login login;
+    @Autowired
+    DoctorScheduleDetails doctorScheduleDetails;
+
+    @Autowired
+    Main main;
+
     @Test
     public void loginTest() throws Exception {
-        zyyyAPIService.login();
+        main.mainTask();
     }
 }

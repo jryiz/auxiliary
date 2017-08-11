@@ -19,7 +19,7 @@ import java.util.Map;
  * @create 2017/8/7
  */
 @Component
-public class ZyyyAPIService extends Request2API{
+public abstract class ZyyyAPIService implements Request2API{
     private final Logger LOG = Logger.getLogger(this.getClass());
     @Autowired
     OkHttpClient okHttpClient;
@@ -31,20 +31,24 @@ public class ZyyyAPIService extends Request2API{
     private String apiUrl;
     @Value("${zyyy.app.version}")
     private String clientVersion;
-    private static Map<String,String> ep;
-//    static {
-//        ep = new HashMap<String, String>();
-//        ep.put("app_id",appId);
-//        ep.put("app_key",appKey);
-//        ep.put("client_mobile","");
-//        ep.put("user_type",ZyyyConstant.APP_USER_TYPE);
-//        ep.put("api_channel",ZyyyConstant.APP_API_CHANNLE);
-//        ep.put("client_version",CLIENT_VERSION);
-//    }
+
+    private static String sessionId;
+
+    public ZyyyResponse go(JSONObject json,String apiName){
+        ZyyyRequest request = initRequest();
+        request.setApiName(apiName);
+        request.setParams(json);
+        return request2Server(JSON.toJSONString(request));
+    }
+    public ZyyyResponse go(ZyyyRequest request){
+        initRequest(request);
+        return request2Server(JSON.toJSONString(request));
+//        return test();
+    }
     //登录
     public void login(){
         String loginName="13758248635";
-        String password="123456";
+        String password="Jean123";
         JSONObject json = new JSONObject();
         json.put("phone",loginName);
         json.put("psw",password);
@@ -53,25 +57,34 @@ public class ZyyyAPIService extends Request2API{
         request.setApiName(ZyyyConstant.API_LOGIN);
         request.setParams(json);
         ZyyyResponse response = request2Server(JSON.toJSONString(request));
+        if (response.isSuccessful()){
+            JSONObject returnJson = response.getReturnParams();
+//            String sessionId = returnJson.getString("session_id");
+            sessionId = "d948a3927f8d32fd5b5d01b88542aedc";
+        }
+    }
+    private boolean isLogin(){
+        if (null == this.sessionId)
+            return false;
+        return true;
     }
 
-    @Override
-    public void faild() {
-
-    }
-
-    @Override
-    public void success() {
-
-    }
     private ZyyyRequest initRequest(){
         return new ZyyyRequest("",clientVersion,appId,appKey,
                 ZyyyConstant.APP_API_CHANNLE,ZyyyConstant.APP_USER_TYPE);
     }
-
+    private void initRequest(ZyyyRequest request){
+        request.setAppId(appId);
+        request.setAppKey(appKey);
+        request.setClientMobile("");
+        request.setClientVersion(clientVersion);
+        request.setUserType(ZyyyConstant.APP_USER_TYPE);
+        request.setApiChannel(ZyyyConstant.APP_API_CHANNLE);
+    }
     public ZyyyResponse request2Server(String requestData){
         ZyyyResponse response = null;
         try {
+            LOG.info("请求数据:" + requestData);
             RequestBody requestBody = new FormBody.Builder()
                     .add("requestData", requestData)
                     .build();
@@ -95,8 +108,20 @@ public class ZyyyAPIService extends Request2API{
         return response;
     }
 
-    public static void main(String[] args) {
-        String text="{\"return_code\":0,\"return_msg\":\"\",\"return_params\":{\"ret_code\":\"1\",\"ret_info\":\"密码输入过于频繁，请一小时后再试\"}}";
-        JSONObject obj=JSON.parseObject(text);
+    public ZyyyResponse test(){
+        String url = "https://www.baidu.com/";
+//        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        Call call = okHttpClient.newCall(request);
+        System.out.println(okHttpClient.toString());
+        try {
+            Response response = call.execute();
+            System.out.println(response.body().string());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return  null;
     }
 }

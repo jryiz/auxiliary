@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:align="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>User List</title>
+</head>
+<style>
+    div{
+        width:400px;
+        height:200px;
+        /*text-align:center;*/
+        line-height:40px;
+        margin:0 50px;
+        display: block;
+    }
+</style>
+<body>
+    <div style="float: left;">
+        <h2 style="text-align: center">User List</h2>
+        <ul th:each="user:${list}">
+            <li th:text="${user.userName}">user_name</li>
+            <li th:text="${user.loginName}">login_name</li>
+            <li th:text="${user.idCard}">id_card</li>
+            <li th:text="${user.sex} == 1 ? 男:女">sex</li>
+            -------------------------------
+        </ul>
+    </div>
+    <div style="float: right;text-align: center">
+        <h2 style="text-align: center">Add User To list</h2>
+        <form method="post">
+            <table>
+                <thead>
+                    <th style="width: 30%;display: none"></th>
+                    <th style="width: 70%;display: none"></th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align: right">Login Name</td>
+                        <td><input type="text" style="width: 280px" name="loginName"/></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right">Password</td>
+                        <td><input type="password" style="width: 280px" name="password"/></td>
+                    </tr>
+                   <!-- <tr>
+                        <td style="text-align: right">week</td>
+                        <td>
+                            <select name="dayOfWeek" style="width: 280px;text-align: center">
+                                <option value="-1">请选择周几</option>
+                                <option value="1">星期天</option>
+                                <option value="2">星期一</option>
+                                <option value="3">星期二</option>
+                                <option value="4">星期三</option>
+                                <option value="5">星期四</option>
+                                <option value="6">星期五</option>
+                                <option value="7">星期六</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">Content</td>
+                        <td ><textarea style="width: 280px;height: 40px;" name="content"></textarea></td>
+                    </tr>-->
+                </tbody>
+            </table>
+            <a style="text-align: center;width: 400px"><input type="submit" value="commit"/></a>
+        </form>
+    </div>
+</body>
+</html>

@@ -37,7 +37,7 @@ public class MailTask {
         System.out.println("task task task");
     }
 
-    @Scheduled(cron="${mail.task.cron}")
+//    @Scheduled(cron="${mail.task.cron}")
     public void execute(){
         LOG.info("send mail....");
         List<MailMission> missions;

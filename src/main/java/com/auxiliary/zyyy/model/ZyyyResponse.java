@@ -1,14 +1,16 @@
 package com.auxiliary.zyyy.model;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.auxiliary.annotation.FieldValue;
+import com.auxiliary.model.Response;
 
 /**
  * @auther ucmed Wenjun Choi
  * @create 2017/8/8
  */
-public class ZyyyResponse {
+public class ZyyyResponse implements Response {
     @JSONField(name = "return_code")
     private Integer returnCode;
     @JSONField(name = "return_msg")
@@ -38,5 +40,13 @@ public class ZyyyResponse {
 
     public void setReturnParams(JSONObject returnParams) {
         this.returnParams = returnParams;
+    }
+
+    public boolean isSuccessful() {
+        return 0 == this.returnParams.getIntValue("ret_code") ? true : false;
+    }
+
+    public boolean isConnectedSucc() {
+        return this.returnCode == 0 ? true : false;
     }
 }

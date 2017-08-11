@@ -10,3 +10,4 @@ mail:
 api:
   server:
     url: http://localhost:8001/pay/notify.htm
+    port: 1234
