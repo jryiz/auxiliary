@@ -6,6 +6,8 @@ import com.auxiliary.zyyy.Main;
 import com.auxiliary.zyyy.ZyyyAPIService;
 import com.auxiliary.zyyy.api.DoctorScheduleDetails;
 import com.auxiliary.zyyy.api.Login;
+import com.auxiliary.zyyy.mapper.ZyyyMapper;
+import com.auxiliary.zyyy.model.UserMission;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -144,5 +146,14 @@ public class httpTest {
     @Test
     public void loginTest() throws Exception {
         main.mainTask();
+    }
+
+    @Autowired
+    ZyyyMapper zyyyMapper;
+
+    @Test
+    public void mapperTest(){
+        System.out.println("xxxx");
+        List<UserMission> list = zyyyMapper.findAll();
     }
 }

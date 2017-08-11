@@ -60,42 +60,9 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
-        ExecutorService newFixedThreadPool = Executors.newFixedThreadPool(5);
-        for (int i = 0; i < 3; i++) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    String threadName = Thread.currentThread().getName();
-                    System.out.println(threadName);
-                    int j = 0;
-                    try {
-                        while (true) {
-                            System.out.println(threadName + ":" + ++j);
-                            Thread.sleep(2000);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
-//            newFixedThreadPool.execute(new Runnable() {
-//                @Override
-//                public void run() {
-//                    String threadName = Thread.currentThread().getName();
-//                    System.out.println(threadName);
-//                    int j = 0;
-//                    try {
-//                        while (true) {
-//                            System.out.println(threadName + ":" + ++j);
-//                            Thread.sleep(2000);
-//                        }
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
-        }
+    public void testSession2Accout(){
+        List<UserMission> readyMissionList =
+                missionRepository.findListByMissionDateAndIsDelete(DateUtil.getDateByDays(7), "0");
     }
 }
 
@@ -177,7 +144,7 @@ class MissionRunner implements Runnable,Serializable {
         JSONObject params = new JSONObject();
         JSONObject doctorSchedul = schedulDateObj.getJSONArray("doctor").getJSONObject(0);
         if (0 == doctorSchedul.getIntValue("count")){
-            LOG.info("无号源或停诊");
+            LOG.info("无号源");
             return;
         }
         JSONArray doctorSchedulList = doctorSchedul.getJSONArray("schedulList");
