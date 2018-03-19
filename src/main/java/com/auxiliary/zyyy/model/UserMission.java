@@ -28,6 +28,8 @@ public class UserMission {
     private String isDelete;
     @Column(length = 15)
     private String cardNo;
+    @Column(length = 2)
+    private String missionStatus;
     private Date createDate;
     private Date updateDate;
 
@@ -109,5 +111,13 @@ public class UserMission {
 
     public void setCardNo(String cardNo) {
         this.cardNo = cardNo;
+    }
+
+    public String getMissionStatus() {
+        return missionStatus;
+    }
+
+    public void setMissionStatus(String missionStatus) {
+        this.missionStatus = missionStatus;
     }
 }

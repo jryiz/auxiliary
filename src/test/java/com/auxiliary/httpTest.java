@@ -3,11 +3,10 @@ package com.auxiliary;
 import com.auxiliary.http.HttpAPIService;
 import com.auxiliary.utils.HttpConnectionManager;
 import com.auxiliary.zyyy.Main;
-import com.auxiliary.zyyy.ZyyyAPIService;
 import com.auxiliary.zyyy.api.DoctorScheduleDetails;
 import com.auxiliary.zyyy.api.Login;
 import com.auxiliary.zyyy.mapper.ZyyyMapper;
-import com.auxiliary.zyyy.model.UserMission;
+import com.auxiliary.zyyy.model.ZyyyUser;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -27,10 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -145,7 +142,8 @@ public class httpTest {
 
     @Test
     public void loginTest() throws Exception {
-        main.mainTask();
+//        main.mainTask();
+        main.testSession2UserTask();
     }
 
     @Autowired
@@ -154,6 +152,6 @@ public class httpTest {
     @Test
     public void mapperTest(){
         System.out.println("xxxx");
-        List<UserMission> list = zyyyMapper.findAll();
+        List<ZyyyUser> list = zyyyMapper.findMissionUserByDate("20170818");
     }
 }

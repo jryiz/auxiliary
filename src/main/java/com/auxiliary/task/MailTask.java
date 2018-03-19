@@ -31,7 +31,7 @@ public class MailTask {
     private MailService mailService;
     @Autowired
     private MailMissionRepository missionRepository;
-
+    private static final Integer EOF = -1;
     public void taskTest(){
         mailPropertiesUtil.getProperty("mail.task.cron");
         System.out.println("task task task");
@@ -39,12 +39,12 @@ public class MailTask {
 
 //    @Scheduled(cron="${mail.task.cron}")
     public void execute(){
-        LOG.info("send mail....");
         List<MailMission> missions;
         try {
             missions = missionRepository.findAllByIsDelete('0');
             for ( MailMission mission:missions) {
                 if (isTimesUp(mission)) {
+                    LOG.info("send mail....");
                     mailService.sendSimpleMail(mission.getOwner(),
                             mission.getSubject(), mission.getContent());
                     int times = mission.getOperationTimes();
@@ -71,7 +71,7 @@ public class MailTask {
             lastMissionDate = new Date();
         Date nextMissionDate = null;
         Date nextDate = DateUtil.dayAdd(lastMissionDate,intervalDay);
-        if(null == mission.getDayOfWeek() || -1 == mission.getDayOfWeek()){
+        if(null == mission.getDayOfWeek() || EOF == mission.getDayOfWeek()){
             nextMissionDate = nextDate;
             return DateUtil.getyyyyMMdd(new Date()).equals(DateUtil.getyyyyMMdd(nextMissionDate));
         }

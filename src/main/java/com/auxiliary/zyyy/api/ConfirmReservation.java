@@ -5,6 +5,7 @@ import com.auxiliary.zyyy.ZyyyAPIService;
 import com.auxiliary.zyyy.ZyyyConstant;
 import com.auxiliary.zyyy.model.ZyyyRequest;
 import com.auxiliary.zyyy.model.ZyyyResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -32,7 +33,12 @@ public class ConfirmReservation extends ZyyyAPIService {
         request.setSessionId(req.getString("sessionId"));
         request.setParams(req.getJSONObject("params"));
         request.setApiName(ZyyyConstant.API_RESERVATION_CONFIRM);
-//        return super.go(request);
+        ZyyyResponse response = super.go(request);
+
+        return response;
+    }
+
+    public ZyyyResponse test(){
         ZyyyResponse response = new ZyyyResponse();
         response.setReturnCode(200);
         response.setReturnParams(new JSONObject());

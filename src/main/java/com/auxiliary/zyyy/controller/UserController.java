@@ -4,6 +4,7 @@ import com.auxiliary.zyyy.Main;
 import com.auxiliary.zyyy.api.Login;
 import com.auxiliary.zyyy.model.ZyyyUser;
 import com.auxiliary.zyyy.repository.ZyyyUserRepository;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/zyyy/user")
 public class UserController {
+    private final Logger LOG = Logger.getLogger(this.getClass());
     @Autowired
     ZyyyUserRepository userRepository;
     @Autowired
@@ -35,6 +37,11 @@ public class UserController {
     }
     @PostMapping("/all")
     public String addMission(ZyyyUser user){
+        ZyyyUser anotherUser = userRepository.findByLoginNameAndIsDelete(user.getLoginName(),"0");
+        if(anotherUser != null){
+            LOG.info("用户已存在");
+            return "redirect:all";
+        }
         login.loginAndSave(user);
         return "redirect:all";
     }
@@ -44,5 +51,11 @@ public class UserController {
     public String testMain(Model model){
         main.mainTask();
         return "test main";
+    }
+    @GetMapping("/login")
+    @ResponseBody
+    public String login(Model model){
+        main.testSession2UserTask();
+        return "login";
     }
 }

@@ -22,9 +22,9 @@ spring:
               enable: true
               required: true
 
-logging:
-  level: INFO,DEBUG
-  file: D:/study/JAVA/logs/default.log
+#logging:
+#  level: INFO,DEBUG
+#  file: D:/study/JAVA/logs/default.log
 
 httpClient:
   config:
