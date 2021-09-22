@@ -31,6 +31,8 @@ public abstract class ZyyyAPIService implements Request2API{
     private String apiUrl;
     @Value("${zyyy.app.version}")
     private String clientVersion;
+    @Value("${zyyy.device}")
+    private String device;
 
     private static String sessionId;
 
@@ -69,17 +71,29 @@ public abstract class ZyyyAPIService implements Request2API{
         return true;
     }
 
+    public ZyyyRequest createRequest(JSONObject req,String apiName){
+        ZyyyRequest request = new ZyyyRequest();
+        request.setSessionId(req.getString("sessionId"));
+        request.setParams(req.getJSONObject("params"));
+        request.setApiName(apiName);
+        request.setApiChannel("1");
+        request.setAppId("zyyy_android");
+        request.setAppKey("ZW5sNWVWOWhibVJ5YjJsaw==");
+        request.setUserType("0");
+        return request;
+    }
+
     private ZyyyRequest initRequest(){
-        return new ZyyyRequest("",clientVersion,appId,appKey,
+        return new ZyyyRequest(device,clientVersion,appId,appKey,
                 ZyyyConstant.APP_API_CHANNLE,ZyyyConstant.APP_USER_TYPE);
     }
     private void initRequest(ZyyyRequest request){
-        request.setAppId(appId);
-        request.setAppKey(appKey);
-        request.setClientMobile("");
+        request.setAppId(request.getAppId() != null ? request.getAppId() : appId);
+        request.setAppKey(request.getAppKey() != null ? request.getAppKey() : appKey);
+        request.setClientMobile(device);
         request.setClientVersion(clientVersion);
-        request.setUserType(ZyyyConstant.APP_USER_TYPE);
-        request.setApiChannel(ZyyyConstant.APP_API_CHANNLE);
+        request.setUserType(request.getUserType() != null ? request.getUserType() : ZyyyConstant.APP_USER_TYPE);
+        request.setApiChannel(request.getApiChannel() != null ? request.getApiChannel() : ZyyyConstant.APP_API_CHANNLE);
     }
     public ZyyyResponse request2Server(String requestData){
         ZyyyResponse response = null;

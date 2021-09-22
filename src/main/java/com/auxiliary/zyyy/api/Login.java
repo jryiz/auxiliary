@@ -41,6 +41,7 @@ public class Login extends ZyyyAPIService {
         JSONObject params = new JSONObject();
         params.put("phone", user.getLoginName());
         params.put("psw", user.getPassword());
+        params.put("device","9b30574e18d5b7b6fda1d91c158465d82b2778b91ae3b2b850fb72b92e6b4497");
         ZyyyRequest request = new ZyyyRequest();
         request.setParams(params);
         request.setApiName(ZyyyConstant.API_LOGIN);

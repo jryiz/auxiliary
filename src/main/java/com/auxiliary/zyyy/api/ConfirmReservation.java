@@ -29,14 +29,12 @@ public class ConfirmReservation extends ZyyyAPIService {
 //        String user_name = "";
 //        String sex = "";
 //        String cardNo = "";
-        ZyyyRequest request = new ZyyyRequest();
-        request.setSessionId(req.getString("sessionId"));
-        request.setParams(req.getJSONObject("params"));
-        request.setApiName(ZyyyConstant.API_RESERVATION_CONFIRM);
+        ZyyyRequest request = createRequest(req, ZyyyConstant.API_RESERVATION_CONFIRM);;
         ZyyyResponse response = super.go(request);
 
         return response;
     }
+
 
     public ZyyyResponse test(){
         ZyyyResponse response = new ZyyyResponse();
@@ -44,4 +42,5 @@ public class ConfirmReservation extends ZyyyAPIService {
         response.setReturnParams(new JSONObject());
         return response;
     }
+
 }

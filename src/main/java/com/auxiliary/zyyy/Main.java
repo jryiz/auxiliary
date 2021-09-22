@@ -4,9 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.auxiliary.utils.DateUtil;
-import com.auxiliary.zyyy.api.ConfirmReservation;
-import com.auxiliary.zyyy.api.DoctorScheduleDetails;
-import com.auxiliary.zyyy.api.Login;
+import com.auxiliary.zyyy.api.*;
 import com.auxiliary.zyyy.mapper.ZyyyMapper;
 import com.auxiliary.zyyy.model.UserMission;
 import com.auxiliary.zyyy.model.ZyyyResponse;
@@ -39,6 +37,10 @@ public class Main {
     DoctorScheduleDetails doctorScheduleDetails;
     @Autowired
     ConfirmReservation confirmReservation;
+    @Autowired
+    DoctorSearch doctorSearch;
+    @Autowired
+    RemainNum remainNum;
 
     @Autowired
     UserMissionRepository missionRepository;
@@ -60,14 +62,14 @@ public class Main {
     public void mainTask() {
         SimpleDateFormat sdf = new SimpleDateFormat(ZyyyConstant.DEFAULT_DATE_FORMAT);
         List<UserMission> list = missionRepository.findListByMissionDateAndIsDeleteAndMissionStatus(
-                DateUtil.getDateByDays(7), "0", "0");
+                DateUtil.getDateByDays(5), "0", "0");
         list.addAll(missionRepository.findListByMissionDateAndIsDeleteAndMissionStatus(
-                DateUtil.getDateByDays(8), "0", "0"));
+                DateUtil.getDateByDays(6), "0", "0"));
         for (UserMission mission : list) {
             ZyyyUser user = userRepository.findOne(mission.getUserId());
 
             missionThreadPool.execute(new MissionRunner(missionRepository,
-                    doctorScheduleDetails, confirmReservation, mission, login, user));
+                    doctorScheduleDetails,doctorSearch,remainNum, confirmReservation, mission, login, user));
         }
     }
 
@@ -102,25 +104,65 @@ class MissionRunner implements Runnable, Serializable {
     private static ExecutorService confirmThreadPool = Executors.newCachedThreadPool();
     UserMissionRepository missionRepository;
     DoctorScheduleDetails doctorScheduleDetails;
+    DoctorSearch doctorSearch;
+    RemainNum remainNum;
     ConfirmReservation confirmReservation;
     UserMission mission;
     Login login;
     JSONObject req = new JSONObject();
     ZyyyUser user;
 
+    private volatile boolean success = false;
+
     public MissionRunner() {
     }
 
     public MissionRunner(UserMissionRepository missionRepository, DoctorScheduleDetails doctorScheduleDetails,
-                         ConfirmReservation confirmReservation, UserMission mission, Login login, ZyyyUser user) {
-        super();
+                         DoctorSearch doctorSearch, RemainNum remainNum, ConfirmReservation confirmReservation,
+                         UserMission mission, Login login, ZyyyUser user) {
         this.missionRepository = missionRepository;
         this.doctorScheduleDetails = doctorScheduleDetails;
+        this.doctorSearch = doctorSearch;
+        this.remainNum = remainNum;
         this.confirmReservation = confirmReservation;
         this.mission = mission;
         this.login = login;
+        this.req = req;
         this.user = user;
     }
+    //    @Override
+//    public void run() {
+//        JSONObject params = new JSONObject();
+////        if (isTimesToLogin(user))
+////            return;
+//
+//        params.put("doctor_name", mission.getDoctorName());
+//        params.put("dept_name", mission.getDeptName());
+//        params.put("yuanqu_type", mission.getHospitalId());
+//        req.put("sessionId", user.getSessionId());
+//        req.put("params", params);
+//        ZyyyResponse response = doctorScheduleDetails.go(req);
+//        if (!response.isConnectedSucc() || !response.isSuccessful()) {
+//            LOG.info("获取排班失败");
+//            return;
+//        }
+//        params.clear();
+//        JSONObject returnJson = response.getReturnParams();
+//        JSONArray scheduleDateList = returnJson.getJSONArray("list");
+//        for (Object o : scheduleDateList) {
+//            JSONObject schedulDateObj = (JSONObject) o;
+//            if (!mission.getMissionDate().equals(schedulDateObj.getString("date")))
+////            if (!"20170818".equals(schedulDateObj.getString("date")))
+//                continue;
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    confirmAppoint(schedulDateObj);
+//                }
+//            }).start();
+//
+//        }
+//    }
 
     @Override
     public void run() {
@@ -128,12 +170,11 @@ class MissionRunner implements Runnable, Serializable {
 //        if (isTimesToLogin(user))
 //            return;
 
-        params.put("doctor_name", mission.getDoctorName());
-        params.put("dept_name", mission.getDeptName());
-        params.put("yuanqu_type", mission.getHospitalId());
+        params.put("keyword", mission.getDoctorName());
+        params.put("hosId", mission.getHospitalId());
         req.put("sessionId", user.getSessionId());
         req.put("params", params);
-        ZyyyResponse response = doctorScheduleDetails.go(req);
+        ZyyyResponse response = doctorSearch.go(req);
         if (!response.isConnectedSucc() || !response.isSuccessful()) {
             LOG.info("获取排班失败");
             return;
@@ -172,25 +213,67 @@ class MissionRunner implements Runnable, Serializable {
                 continue;
             }
             String regId = schedulList.getString("reg_id");
-            String regDate = schedulList.getString("date") + schedulList.getString("week_day")
-                    + (schedulList.getIntValue("am_pm_flag") == 1 ? " 上午" : " 下午");
+//            String regDate = schedulList.getString("date") + schedulList.getString("week_day")
+//                    + (schedulList.getIntValue("am_pm_flag") == 1 ? " 上午" : " 下午");
 
             params.put("reg_id", regId);
-            params.put("date", regDate);
+            params.put("pre_date", schedulList.getString("pre_date").replaceAll("-",""));
+            params.put("week_day",schedulList.getString("week_day"));
+            params.put("yuanqu_type","1");
+            params.put("type","1");
             params.put("phone", user.getLoginName());
             params.put("id_card", user.getIdCard());
             params.put("doct_name", doctorSchedul.getString("name"));
+            params.put("doct_id","\"" + doctorSchedul.getString("id") + "\"");
+            params.put("dept_id",doctorSchedul.getString("dept_id"));
             params.put("dept_name", doctorSchedul.getString("dept_name"));
             params.put("user_name", user.getUserName());
-            params.put("sex", user.getSex());
-            params.put("card_no", mission.getCardNo());
+//            params.put("sex", user.getSex());
+            params.put("card_no", "");
+            params.put("fee",schedulList.getString("fee"));
+            params.put("plan_id",schedulList.getLong("plan_id"));
 
-            JSONArray noArr = schedulList.getJSONArray("no_arr");
-            ZyyyCommon.sort(noArr, "reg_no", null);
-            for (Object obj : noArr) {
-                confirmThreadPool.execute(new ConfirmRunner(
-                        params, confirmReservation, obj, regId, req, mission,missionRepository));
-            }
+            JSONObject remainParams = new JSONObject();
+            remainParams.put("sourceId","12");
+            remainParams.put("planId",schedulList.getLong("plan_id"));
+            remainParams.put("ampmFlag",schedulList.getString("am_pm_flag"));
+            remainParams.put("orderDate",schedulList.getString("pre_date"));
+
+            JSONObject remainReq = new JSONObject();
+            remainReq.put("sessionId",user.getSessionId());
+            remainReq.put("params",remainParams);
+            confirmThreadPool.execute(() -> {
+                ZyyyResponse response = remainNum.go(remainReq);
+                if (!response.isSuccessful())
+                    return;
+                response.getReturnParams().getJSONArray("list").forEach((json) -> {
+                    JSONObject remain = (JSONObject) json;
+                    JSONObject cReq = new JSONObject();
+                    cReq.putAll(params);
+                    cReq.put("clinic_time",remain.getString("timespan"));
+                    cReq.put("pre_time_type",remain.getString("timeregion"));
+                    cReq.put("reg_no",remain.getString("regno"));
+                    confirmThreadPool.execute(() -> {
+                        JSONObject confirmReq = new JSONObject();
+                        confirmReq.put("sessionId",user.getSessionId());
+                        confirmReq.put("params",cReq);
+                        if (!success) {
+                            success = confirmReservation.go(confirmReq).isSuccessful();
+                            if (success) {
+                                mission.setMissionStatus("1");
+                                missionRepository.save(mission);
+                            }
+                        }
+                    });
+                });
+            });
+
+//            JSONArray noArr = schedulList.getJSONArray("no_arr");
+//            ZyyyCommon.sort(noArr, "reg_no", null);
+//            for (Object obj : noArr) {
+//                confirmThreadPool.execute(new ConfirmRunner(
+//                        params, confirmReservation, obj, regId, req, mission,missionRepository));
+//            }
         }
     }
 }

@@ -1,0 +1,273 @@
+https://zyyy.zwjk.com/api/exec.htm
+
+
+1.api.user.user.login.info
+
+	requestData: {
+	  "app_id" : "zyyy_iphone",
+	  "client_mobile" : "",
+	  "client_version" : "5.2.0",
+	  "app_key" : "ZW5sNWVWOXBjR2h2Ym1VPQ==",
+	  "api_Channel" : "3",
+	  "params" : {
+		"phone" : "13758248635",
+		"psw" : "Jean123",
+		"device" : "9b30574e18d5b7b6fda1d91c158465d82b2778b91ae3b2b850fb72b92e6b4497"
+	  },
+	  "user_type" : "3",
+	  "session_id" : "",
+	  "api_name" : "api.user.user.login.info"
+	}
+
+	{
+	  "return_code": 0,
+	  "return_msg": "",
+	  "return_params": {
+		"user_model": {
+		  "model": {
+			"address": "",
+			"birthday": "1994-04-29",
+			"black_list": "1",
+			"create_time": "2016-07-11 21:27",
+			"health_infor": "1",
+			"id": 215059,
+			"id_card": "330327199404291718",
+			"is_delete": "1",
+			"last_login_time": "2019-08-20 09:40",
+			"login_name": "13758248635",
+			"login_password": "f4af3e740fce26379cb8f0c8c2a80b9458618d2a03a50ef94bace0de454485d5",
+			"login_time": 0,
+			"mark": "zmv4320160711A215059",
+			"phone": "13758248635",
+			"real_name": "蔡文俊",
+			"security_key": "f5b20474-70fe-4763-a096-0935f8d04fb7",
+			"sex": "1",
+			"birth_addr": "",
+			"nation": "",
+			"marriage": "0",
+			"work_addr": "",
+			"work": "",
+			"is_vedio": "1",
+			"is_real": 0,
+			"gray_mode": "1",
+			"update_time": "2017-10-24 15:59",
+			"complete": "0"
+		  },
+		  "session_id": "2d0c5585fc459bde45138e26afffbcdb"
+		},
+		"share": {
+		  "yycj_url": "http://zyyyapi.ucmed.cn/static/yycj.htm?session_id=",
+		  "fx_url": "http://zyyyapi.ucmed.cn/static/yycj.htm?",
+		  "fx_img_url": "http://zyyyapi.ucmed.cn/admin/images/wlzj/weixin/ico_home_hongbao.png",
+		  "fx_title": "一大波健康好礼来啦",
+		  "content": "",
+		  "is_cj_time": 0
+		},
+		"ret_code": 0,
+		"session_id": "2d0c5585fc459bde45138e26afffbcdb"
+	  }
+	}
+	
+2.api.time
+
+requestData={"session_id":"3ebaef28d671594e5ec32b6a1f9baf48","api_name":"api.time","api_Channel":"1","user_type":"0","app_key":"ZW5sNWVWOWhibVJ5YjJsaw==","app_id":"zyyy_android","params":{},"client_mobile":"","client_version":"5.1.4"}
+
+{
+  "return_code": 0,
+  "return_msg": "",
+  "return_params": {
+    "timestamp": 1632320423019,
+    "minute": "20",
+    "isoTime": "2021-09-22T22:20:23+08:00",
+    "time": "2021-09-22 22:20:23",
+    "ret_code": 0,
+    "hour": "22",
+    "day": "2021-09-22",
+    "ret_info": "成功"
+  }
+}
+
+3.api.zyyy.zjyy.doctor.search.list3.0
+	{
+		"session_id":"3ebaef28d671594e5ec32b6a1f9baf48",
+		"api_name":"api.zyyy.zjyy.doctor.search.list3.0",
+		"api_Channel":"1",
+		"user_type":"0",
+		"app_key":"ZW5sNWVWOWhibVJ5YjJsaw==",
+		"app_id":"zyyy_android",
+		"params":{
+			"hosId":1,
+			"keyword":"邬一军"
+		},
+		"client_mobile":"",
+		"client_version":"5.1.4"
+	}
+
+	{
+	  "return_code": 0,
+	  "return_msg": "",
+	  "return_params": {
+		"ret_info": "成功",
+		"total_count": 1,
+		"list": [
+		  {
+			"date": "20210928",
+			"show_date": "2021-09-28 星期二",
+			"doctor": [
+			  {
+				"id": "1537",
+				"name": "邬一军",
+				"dept_name": "甲状腺外科",
+				"dept_id": "104011901",
+				"doct_rank": "主任医师",
+				"doct_resume": "甲状腺良性和恶性疾病的早期诊断和规范化手术治疗，胃肠道疾病的综合治疗。",
+				"count": 0,
+				"schedulList": [
+				  {
+					"id": 295674,
+					"plan_id": 3703,
+					"week_day": "2",
+					"pre_date": "2021-09-28",
+					"fee": "150",
+					"reg_id": "994030",
+					"enable": "0",
+					"is_vary": 1,
+					"am_pm_flag": "2",
+					"am_cont": 0
+				  },
+				  {
+					"id": 295674,
+					"plan_id": 3703,
+					"week_day": "2",
+					"pre_date": "2021-09-28",
+					"fee": "150",
+					"reg_id": "994030",
+					"enable": "0",
+					"is_vary": 1,
+					"am_pm_flag": "2",
+					"am_cont": 0
+				  }
+				]
+			  }
+			]
+		  }
+		],
+		"ret_code": 0,
+		"page_count": 1
+	  }
+	}
+	
+4. api.yygh.remain.num
+
+	{
+		"session_id":"2d0c5585fc459bde45138e26afffbcdb",
+		"api_name":"api.yygh.remain.num",
+		"api_Channel":"1",
+		"user_type":"0",
+		"app_key":"ZW5sNWVWOWhibVJ5YjJsaw==",
+		"app_id":"zyyy_android",
+		"params":{
+			"sourceId":"12",
+			"planId":3703,
+			"orderDate":"2021-09-28",
+			"ampmFlag":"2"
+		},
+		"client_mobile":"9b30574e18d5b7b6fda1d91c158465d82b2778b91ae3b2b850fb72b92e6b4497",
+		"client_version":"5.1.4"
+	}
+
+	{
+	  "return_code": 0,
+	  "return_msg": "",
+	  "return_params": {
+		"ret_info": "",
+		"list": [
+		  {
+			"regno": "17",
+			"timeregion": "1",
+			"timespan": "10:00-10:30"
+		  }
+		],
+		"ret_code": "0"
+	  }
+	}
+
+
+	
+	
+5.api.yygh.expert.reservation
+	{
+		"session_id":"2d0c5585fc459bde45138e26afffbcdb",
+		"api_name":"api.yygh.expert.reservation",
+		"api_Channel":"1",
+		"user_type":"0",
+		"app_key":"ZW5sNWVWOWhibVJ5YjJsaw==",
+		"app_id":"zyyy_android",
+		"params":{
+			"user_name":"蔡文俊",  "user_name":"蔡文俊"
+			"phone":"13758248635",
+			"doct_name":"钱家杰",
+			"reg_id":"967459",
+			"dept_name":"胃肠甲状腺疝气外科",
+			"card_no":"",
+			"doct_id":"\"1763\"",
+			"id_card":"330327199404291718",
+			"reg_no":"15",  "reg_no":"25"
+			"yuanqu_type":"1",
+			"type":"1",
+			"dept_id":104010805,
+			"pre_date":"20210928",  "pre_date":"20210929"
+			"week_day":"2",
+			"plan_id":12389,
+			"fee":"25",
+			"pre_time_type":"1",
+			"clinic_time":"09:30-10:00"
+		},
+		"client_mobile":"9b30574e18d5b7b6fda1d91c158465d82b2778b91ae3b2b850fb72b92e6b4497",
+		"client_version":"5.1.4"
+	}
+
+{
+"reg_no":"25",
+"user_name":"蔡文俊",
+"pre_date":"20210929",
+"sex":"1",
+"fee":"30",
+"id_card":"330327199404291718",
+"doct_name":"徐萍",
+"dept_name":"消化道内科",
+"pre_time_type":"1",
+"clinic_time":"10:00-10:30",
+"type":"1",
+"reg_id":"698871",
+"card_no":"",
+"phone":"13758248635",
+"week_day":"3",
+"yuanqu_type":"1",
+"doct_id":"\"1586\"",
+"dept_id":"103020110",
+"plan_id":"13439"
+}
+
+{
+  "return_code": 0,
+  "return_msg": "",
+  "return_params": {
+    "obj": {
+      "pre_reg_id": 10012690,
+      "reg_no": "15",
+      "reg_id": "967459",
+      "date": "20210928",
+      "name": "蔡文俊",
+      "doct_name": "钱家杰",
+      "dept_name": "胃肠甲状腺疝气外科",
+      "week_day": "星期二",
+      "clinic_time": "09:30-10:00",
+      "am_pm_flag": "1",
+      "fee": "25",
+      "id_card": "330327199404291718",
+      "faculty_location": ""
+    },
+    "ret_code": 0
+  }
+}
